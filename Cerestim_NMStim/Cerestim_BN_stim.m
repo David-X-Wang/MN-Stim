@@ -21,7 +21,7 @@
 
 %%%%%%%%%%%%%%%%%%%%% BN modulation pattern save path %%%%%%%%%%%%%%%%%%%%%
 Subject = 'UT999';      % Subject Number, UT999 for testing
-SessionNum = 1;         % Test Session Number. If a session is interrupted,
+SessionNum = 0;         % Test Session Number. If a session is interrupted,
                         % please start with a new session number. (Same in BlackRock Central)
                         
 SavePath = ['C:\data\',Subject,'\session_',num2str(SessionNum),'\'];
@@ -34,33 +34,32 @@ StimChannel = 1;        % Channel No. for stim signal (PCC electrode)
 StimRecChannel = 2 ;    % Channel No. for recording stim signal (only if necessary, would need physical wiring)
 NumEvents = 90;         % 90 events for a 1-hour session, each event is 40s long, (20s of stim and 20s no-stim)
 
-Amp1 = 1000;          % Amplitude for high current pulses, in uA
-Amp2 = 1500;           % Amplitude for low current pulses, in uA
-Amp3 = 2000;          % Amplitude for high current pulses, in uA
-Amp4 = 2500;           % Amplitude for low current pulses, in uA
+HighAmp = 2000;          % Amplitude for high current pulses, in uA
+LowAmp = 1000;           % Amplitude for low current pulses, in uA
+HighFreq = 100;          % Freuqnecy for stimulation pulse, 100Hz
+LowFreq = 150;
 
-Frequency = 100;           % Freuqnecy 1 for stimulation pulse, 100Hz
-%HighFreq = 150;          % Freuqnecy 2 for stimulation pulse, 150Hz
-
-Tsw = 0.1;
-StimDuration = 3;      % stim duration, in seconds
+Tsw = 0.2;
+StimDuration = 5;      % stim duration, in seconds
 NoPattern = StimDuration/Tsw;
-NumPulses1 = Tsw/(1/Frequency);         % number of pulses per modulation, to minic the random BN pattern
-WaitDuration = 3;      % baseline duration, in seconds
+
+NumPulses1 = Tsw/(1/HighFreq);         % number of pulses per modulation, to minic the random BN pattern
+NumPulses2 = round(Tsw/(1/LowFreq));
+WaitDuration = 5;      % baseline duration, in seconds
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% Define Stim Pulse %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % High-amplitude-high-frequency stim pulse  
-stimulator.setStimPattern('waveform',1,'polarity',0,'pulses',NumPulses1,'amp1',Amp1, ...
-    'amp2',Amp1, 'width1',200,'width2',200,'interphase',55,'frequency',Frequency);
+stimulator.setStimPattern('waveform',1,'polarity',0,'pulses',NumPulses1,'amp1',HighAmp, ...
+    'amp2',HighAmp, 'width1',200,'width2',200,'interphase',55,'frequency',HighFreq);
 % Low-amplitude-high-frequency stim pulse  
-stimulator.setStimPattern('waveform',2,'polarity',0,'pulses',NumPulses1,'amp1',Amp2, ...
-    'amp2',Amp2, 'width1',200,'width2',200,'interphase',55,'frequency',Frequency);
+stimulator.setStimPattern('waveform',2,'polarity',0,'pulses',NumPulses1,'amp1',LowAmp, ...
+    'amp2',LowAmp, 'width1',200,'width2',200,'interphase',55,'frequency',HighFreq);
 % High-amplitude-low-frequency stim pulse  
-stimulator.setStimPattern('waveform',3,'polarity',0,'pulses',NumPulses1,'amp1',Amp3, ...
-    'amp2',Amp3, 'width1',200,'width2',200,'interphase',55,'frequency',Frequency);
+stimulator.setStimPattern('waveform',3,'polarity',0,'pulses',NumPulses2,'amp1',HighAmp, ...
+    'amp2',HighAmp, 'width1',200,'width2',200,'interphase',55,'frequency',LowFreq);
 % Low-amplitude-low-frequency stim pulse  
-stimulator.setStimPattern('waveform',4,'polarity',0,'pulses',NumPulses1,'amp1',Amp4, ...
-    'amp2',Amp4, 'width1',200,'width2',200,'interphase',55,'frequency',Frequency);
+stimulator.setStimPattern('waveform',4,'polarity',0,'pulses',NumPulses2,'amp1',LowAmp, ...
+    'amp2',LowAmp, 'width1',200,'width2',200,'interphase',55,'frequency',LowFreq);
 
 
 %%%%%%%%%%%%%%%%%%%%%% Define Stim Sequence %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -73,13 +72,13 @@ for i = 1:NumEvents
     %stimulator.wait(WaitDuration*1000);                                   
     BNpattern = randi([1 4],[1 NoPattern]);                                 % Generate pseudo-binary noise pattern
     %plot(BNpattern)
-    BNamp = repelem((Amp2-Amp1)*(BNpattern),Fs*Tsw);  
+    BNamp = repelem((HighAmp-LowAmp)*(rem(BNpattern,2)==1)+LowAmp,Fs*Tsw);  
     %figure;plot(BNamp)
-    BNfreq = repelem((Frequency)*ones(size(BNpattern)),Fs*Tsw);
+    BNfreq = repelem((HighFreq-LowFreq)*(BNpattern<3)+LowFreq,Fs*Tsw);
     %figure;plot(BNfreq)
-    BNsequence = [BNamp; BNfreq];     % Generate BN sequence. 
+    BNsequence = [BNamp BNfreq];     % Generate BN sequence. 
     
-    save([SavePath,sprintf('BN_StimPattern_%03d.mat',i)],'BNsequence')      % THIS IS SAVED FOR LATER CONTROL
+    save([SavePath,sprintf('BN_StimPattern_%03d.mat',i)],'BNPattern')      % THIS IS SAVED FOR LATER CONTROL
     for SeqInd = 1:length(BNpattern)
         stimulator.autoStim(StimChannel,BNpattern(SeqInd));
     end
@@ -90,6 +89,15 @@ for i = 1:NumEvents
     pause(StimDuration+tEnd)                                               % Pause for Cerestim to finish ongoing task, other wise micro-controller will stop
 end
 
+
+tStart  = tic ;
+plot(TimeVec,BNsequence/1000)
+ylim([0,HighAmp*1.5/1000])
+ylabel('Amplitude (mA)')
+xlabel('Time (s)')
+title('Stim Modulation Sequence')
+tEnd = toc(tStart) ;
+TimeVec = linspace(0,20,StimDuration*Fs);
 
 
 %stimulator.stop();
