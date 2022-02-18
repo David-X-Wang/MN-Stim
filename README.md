@@ -11,10 +11,10 @@ This paradigm is based on Neural Signal Processor (NSP) https://blackrockneurote
 
 This open-source repositories include:  
 
-1. NSP_codes: Scripts and configurations for multi-noise stimulation using Ceresetim.
+1. NSP_Processing: Scripts and configurations for multi-noise stimulation using Ceresetim.
    Dependency: BlackrockNeurotech Neural Processing Matlab Kit (NPMK) (https://github.com/BlackrockNeurotech/NPMK)
-2. Cerestim_cose: Scripts and configurations for processing iEEG collected by NSP module.
-   Dependency: 
-4. 
+2. Cerestim_Processing: Scripts and configurations for processing iEEG collected by NSP module.
+   Dependency: Cerestim Biniaries API (included in the folder)
+3. NSP_Recording: instructions for setting up blackrock hardwares and recording configurations. 
 
 
