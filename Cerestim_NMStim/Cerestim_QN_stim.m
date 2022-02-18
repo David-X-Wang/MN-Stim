@@ -6,8 +6,8 @@
 % LowAmp :  The current of low amplitude biphasic pulse
 % StimFreq : Frequency of biphasic High/Low biphasic pulses
 %
-% BNpattern : The pseudo-binary noise pattern (p=0.5) that each sample
-%             point has NumPulses of difined High/Low stim pattren.
+% QNpattern : The pseudo-quandanry noise pattern (p=0.25) that each sample
+%             point has NumPulses of difined Amp1-Amp4 stim pattren.
 %
 % BNsequence : The BN sequence has the same length as the actual signal. It 
 %              can be seen as the modulation signal (multiplied by single pulse)              
@@ -16,8 +16,7 @@
 %              is also sampled to match the sampling frequency in data acquisition (1Ks/sec)
 %
 % David Wang 
-% Latest update : March/2021
-% Change log : Apirl 2021, added the 2nd stim frequency 
+% Latest update : March/2022
 
 %%%%%%%%%%%%%%%%%%%%% BN modulation pattern save path %%%%%%%%%%%%%%%%%%%%%
 Subject = 'UT999';      % Subject Number, UT999 for testing
