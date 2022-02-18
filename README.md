@@ -9,3 +9,6 @@ This Package
 1. Scripts and configurations for multi-noise stimulation using Ceresetim.
 2. Scripts and configurations for processing iEEG collected by NSP module.
 3. 
+
+
+![blackrocksetup!](https://github.com/David-X-Wang/MNstimulation/blob/main/blackrock_setup/blackrock_wiring_setup.png?raw=true)
