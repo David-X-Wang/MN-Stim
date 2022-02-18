@@ -12,7 +12,7 @@ This paradigm is based on Neural Signal Processor (NSP), Cerestim R96 Stimulator
 This open-source repositories include:  
 
 1. NSP_codes: Scripts and configurations for multi-noise stimulation using Ceresetim.
-   Dependency: BlackrockNeurotech NPMK (https://github.com/BlackrockNeurotech/NPMK)
+   Dependency: BlackrockNeurotech Neural Processing Matlab Kit (NPMK) (https://github.com/BlackrockNeurotech/NPMK)
 2. Cerestim_cose: Scripts and configurations for processing iEEG collected by NSP module.
    Dependency: 
 4. 
