@@ -1,5 +1,6 @@
 # MNstimulation
-The multi-noise stimulation is a part of the brain-computer interface development at the Texas Computational Memory Lab (Lega Lab), Department of Neurological Surgery, UT Southwestern Medical Center, Dallas, Texas, USA
+The multi-noise stimulation is a part of the brain-computer interface development at the Texas Computational Memory Lab (Lega Lab), Department of Neurological Surgery, UT Southwestern Medical Center, Dallas, Texas, USA.
+
 Multi-Noise Deep Brain Stimulation Paradigm is a open-loop deep brain stimulation paradigm that apply biphasic balance-charged electrical pulses directly to the target brain cortecies.  
 This open loop stimulation paradigm aims at capturing neural dymanical reponses of certain brain regions (neocortecies and hippocampus) for the system identification (modeling) in the development of a closed-loop brain computer interfaces. 
 
