@@ -9,7 +9,7 @@
 % QNpattern : The pseudo-quandanry noise pattern (p=0.25) that each sample
 %             point has NumPulses of difined Amp1-Amp4 stim pattren.
 %
-% BNsequence : The BN sequence has the same length as the actual signal. It 
+% QNsequence : The BN sequence has the same length as the actual signal. It 
 %              can be seen as the modulation signal (multiplied by single pulse)              
 %              and the enovlop of actual stim signal goes to the brian.
 %              Saved in script for later system identification. BNsequence
@@ -39,7 +39,6 @@ Amp3 = 2000;           % Amplitude for high current pulses, in uA
 Amp4 = 2500;           % Amplitude for low current pulses, in uA
 
 Frequency = 100;         % Freuqnecy 1 for stimulation pulse, 100Hz
-HighFreq = 150;          % Freuqnecy 2 for stimulation pulse, 150Hz
 
 Tsw = 0.1;
 StimDuration = 3;      % stim duration, in seconds
@@ -72,7 +71,7 @@ for i = 1:NumEvents
     %stimulator.wait(WaitDuration*1000);                                   
     BNpattern = randi([1 4],[1 NoPattern]);                                 % Generate pseudo-binary noise pattern
     %plot(BNpattern)
-    BNamp = repelem((Amp2-Amp1)*(BNpattern),Fs*Tsw);  
+    BNamp = repelem((Amp2-Amp1)*(BNpattern),Fs*Tsw)+(Amp2-Amp1);  
     %figure;plot(BNamp)
     BNfreq = repelem((Frequency)*ones(size(BNpattern)),Fs*Tsw);
     %figure;plot(BNfreq)
