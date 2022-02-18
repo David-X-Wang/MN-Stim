@@ -33,13 +33,13 @@ StimChannel = 1;        % Channel No. for stim signal (PCC electrode)
 StimRecChannel = 2 ;    % Channel No. for recording stim signal (only if necessary, would need physical wiring)
 NumEvents = 90;         % 90 events for a 1-hour session, each event is 40s long, (20s of stim and 20s no-stim)
 
-Amp1 = 1000;          % Amplitude for high current pulses, in uA
+Amp1 = 1000;           % Amplitude for high current pulses, in uA
 Amp2 = 1500;           % Amplitude for low current pulses, in uA
-Amp3 = 2000;          % Amplitude for high current pulses, in uA
+Amp3 = 2000;           % Amplitude for high current pulses, in uA
 Amp4 = 2500;           % Amplitude for low current pulses, in uA
 
-Frequency = 100;           % Freuqnecy 1 for stimulation pulse, 100Hz
-%HighFreq = 150;          % Freuqnecy 2 for stimulation pulse, 150Hz
+Frequency = 100;         % Freuqnecy 1 for stimulation pulse, 100Hz
+HighFreq = 150;          % Freuqnecy 2 for stimulation pulse, 150Hz
 
 Tsw = 0.1;
 StimDuration = 3;      % stim duration, in seconds
