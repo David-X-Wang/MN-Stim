@@ -5,7 +5,7 @@ Multi-Noise stimulation paradigm is a open-loop deep brain stimulation (DBS) par
 
 This paradigm is based on Neural Signal Processor (NSP) https://blackrockneurotech.com/research/products/#data-acquisition-systems, Cerestim R96 Stimulator (https://blackrockneurotech.com/research/products/#stimulators) and other relavent peripheral devices (including cables, front-end amplifier, adaptors, etc) manufactured by Blackrock Neurotech (https://blackrockneurotech.com/). The hardware with human-in-the-loop configuration is listed as follows, in parallel to the clinical Nihon Kodhen EEG system at the Epilepsy Monitoring Unit (EMU). Specific customized cable adaptors are required. 
 
-![blackrocksetup!](https://github.com/David-X-Wang/MNstimulation/blob/main/Instructions/blackrock_wiring_setup.png?raw=true)
+![blackrocksetup!](https://github.com/David-X-Wang/MNstimulation/blob/main/NSP_Recording/blackrock_wiring_setup.png?raw=true)
 
 
 
