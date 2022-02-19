@@ -18,14 +18,13 @@
 
 clc;close all;clear
 
-
+% working directory, make sure the script is running on the directory of
+% the package. 
 %cd('/project/TIBIR/Lega_lab/shared/lega_ansir/DavidWang_code/BlackRock/');
-
-
+cd ..
 addpath(genpath('./'))
 
 StimPattern = 'BN'; %'BN'       % stimulation patterns to choose from, binary-noise(BN) or quaternary-noise(QN)
-
 
 if strcmp(StimPattern, 'BN')    
     subjects={'UT253','UT257','UT256','UT261','UT263','UT265','UT264','UT269','UT271','UT277','UT283','UT284'};
@@ -63,7 +62,7 @@ elseif strcmp(band,'theta')
 end
 
 % file save path for processed EEG
-savepath = sprintf('./ProcessedData/Hippo_%sStim_%s_%ssec_%soffset/',...
+savepath = sprintf('../Data_Processed/Hippo_%sStim_%s_%ssec_%soffset/',...
     StimPattern,band,num2str(Stimduration),num2str(TrailOffset));
 if ~exist(savepath, 'dir')
     mkdir(savepath)
@@ -81,7 +80,7 @@ for Sind = 1:length(subjects)
     HippoChans = HippoNum{Sind};
     
     %
-    rawdatapath  = sprintf('./BNstim_DataRaw/%s/session_%s/',Subject,session);
+    rawdatapath  = sprintf('./Data_Raw/%s/session_%s/',Subject,session);
     
     ConEEG = openNSx([rawdatapath,sprintf('session_%s.ns5',session)],'uv');     %read .ns5 files, dependency: BlackrockNeurotech NPMK
     digiEEG = openNSx([rawdatapath,sprintf('session_%s.ns2',session)],'uv');    %read .ns5 files, dependency: BlackrockNeurotech NPMK
@@ -236,5 +235,4 @@ writetable(struct2table(Report), [savepath,'processing_report.csv'])
 
 % filename = [savepath,sprintf('/session_%s.mat',session)];
 % save(filename,'EEG_stim','EEG_nostim','BN_stim')
-
 

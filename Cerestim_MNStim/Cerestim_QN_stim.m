@@ -20,10 +20,10 @@
 
 %%%%%%%%%%%%%%%%%%%%% BN modulation pattern save path %%%%%%%%%%%%%%%%%%%%%
 Subject = 'UT999';      % Subject Number, UT999 for testing
-SessionNum = 1;         % Test Session Number. If a session is interrupted,
+SessionNum = 3;         % Test Session Number. If a session is interrupted,
                         % please start with a new session number. (Same in BlackRock Central)
                         
-SavePath = ['C:\data\',Subject,'\session_',num2str(SessionNum),'\'];
+SavePath = ['D:\data\',Subject,'\session_',num2str(SessionNum),'\'];
 if ~exist(SavePath, 'dir')
     mkdir(SavePath)
 end

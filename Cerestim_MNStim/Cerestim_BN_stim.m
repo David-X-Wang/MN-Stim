@@ -16,15 +16,32 @@
 %              is also sampled to match the sampling frequency in data acquisition (1Ks/sec)
 %
 % David Wang 
-% Latest update : March/2021
-% Change log : Apirl 2021, added the 2nd stim frequency 
+% Latest update : March/2022
 
 %%%%%%%%%%%%%%%%%%%%% BN modulation pattern save path %%%%%%%%%%%%%%%%%%%%%
 Subject = 'UT999';      % Subject Number, UT999 for testing
 SessionNum = 0;         % Test Session Number. If a session is interrupted,
                         % please start with a new session number. (Same in BlackRock Central)
+                                                
+if SessionNum == 0
+    HighAmp = 2000;          % Amplitude for high current pulses, in uA
+    LowAmp = 1000;           % Amplitude for low current pulses, in uA
+    HighFreq = 150;          % High freuqnecy for stimulation pulse, 100Hz
+    LowFreq = 100;           % Low Freuqnecy for stimulation pulse, 100Hz
+elseif SessionNum == 1
+    HighAmp = 3000;          % Amplitude for high current pulses, in uA
+    LowAmp = 1500;           % Amplitude for low current pulses, in uA
+    HighFreq = 150;          % High freuqnecy for stimulation pulse, 100Hz
+    LowFreq = 100;           % Low Freuqnecy for stimulation pulse, 100Hz
+elseif SessionNum == 2
+    HighAmp = 2000;          % Fixed amplitude for pulses, in uA
+    LowAmp = 2000;          
+    HighFreq = 100;          % Fixed freuqnecy for stimulation pulse, 100Hz
+    LowFreq = 100;          
+end
+
                         
-SavePath = ['C:\data\',Subject,'\session_',num2str(SessionNum),'\'];
+SavePath = ['D:\data\',Subject,'\session_',num2str(SessionNum),'\'];
 if ~exist(SavePath, 'dir')
     mkdir(SavePath)
 end
@@ -34,18 +51,15 @@ StimChannel = 1;        % Channel No. for stim signal (PCC electrode)
 StimRecChannel = 2 ;    % Channel No. for recording stim signal (only if necessary, would need physical wiring)
 NumEvents = 90;         % 90 events for a 1-hour session, each event is 40s long, (20s of stim and 20s no-stim)
 
-HighAmp = 2000;          % Amplitude for high current pulses, in uA
-LowAmp = 1000;           % Amplitude for low current pulses, in uA
-HighFreq = 100;          % Freuqnecy for stimulation pulse, 100Hz
-LowFreq = 150;
 
-Tsw = 0.2;
-StimDuration = 5;      % stim duration, in seconds
+
+Tsw = 0.1;
+StimDuration = 3;      % stim duration, in seconds
 NoPattern = StimDuration/Tsw;
 
 NumPulses1 = Tsw/(1/HighFreq);         % number of pulses per modulation, to minic the random BN pattern
 NumPulses2 = round(Tsw/(1/LowFreq));
-WaitDuration = 5;      % baseline duration, in seconds
+WaitDuration = 3;      % baseline duration, in seconds
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% Define Stim Pulse %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % High-amplitude-high-frequency stim pulse  
@@ -76,7 +90,7 @@ for i = 1:NumEvents
     %figure;plot(BNamp)
     BNfreq = repelem((HighFreq-LowFreq)*(BNpattern<3)+LowFreq,Fs*Tsw);
     %figure;plot(BNfreq)
-    BNsequence = [BNamp BNfreq];     % Generate BN sequence. 
+    BNsequence = [BNamp; BNfreq];     % Generate BN sequence. 
     
     save([SavePath,sprintf('BN_StimPattern_%03d.mat',i)],'BNPattern')      % THIS IS SAVED FOR LATER CONTROL
     for SeqInd = 1:length(BNpattern)
